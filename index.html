@@ -1,0 +1,114 @@
+her <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق الطبيب الذكي</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+        body { font-family: 'Tajawal', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-teal-600 text-white p-4 shadow-lg sticky top-0 z-50">
+        <div class="max-w-md mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid font-bold text-2xl fa-user-doctor"></i>
+                <h1 class="text-xl font-bold">الطبيب الذكي</h1>
+            </div>
+            <span class="bg-teal-700 text-xs px-2.5 py-1 rounded-full font-medium">مجاني 100%</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-md mx-auto w-full p-4 space-y-4 pb-20">
+
+        <!-- Welcome Card -->
+        <div class="bg-gradient-to-r from-teal-500 to-emerald-600 rounded-2xl p-5 text-white shadow-md">
+            <h2 class="text-lg font-bold mb-1">مرحباً بك في مستشارك الطبي!</h2>
+            <p class="text-xs text-teal-100 leading-relaxed">
+                احصل على تشخيص مبدئي وإرشادات صحية موثوقة باستخدام الذكاء الاصطناعي على مدار الساعة.
+            </p>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-2 gap-3">
+            <button onclick="switchTab('checker')" class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-teal-500 transition text-right">
+                <i class="fa-solid fa-notes-medical text-2xl text-teal-600 mb-2"></i>
+                <h3 class="font-bold text-sm text-slate-800">فحص الأعراض</h3>
+                <p class="text-[11px] text-slate-500">حلل ألمك وشعورك</p>
+            </button>
+            <button onclick="switchTab('consult')" class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-teal-500 transition text-right">
+                <i class="fa-solid fa-comments text-2xl text-emerald-600 mb-2"></i>
+                <h3 class="font-bold text-sm text-slate-800">استشارة سريعة</h3>
+                <p class="text-[11px] text-slate-500">محادثه طبية فورية</p>
+            </button>
+        </div>
+
+        <!-- Section: Dynamic Content -->
+        <div id="tab-content" class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200">
+            <!-- Default Content: Symptom Checker -->
+            <div id="checker-view">
+                <h3 class="font-bold text-slate-800 mb-3 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-teal-600"></i> اختبر الأعراض الحالية
+                </h3>
+                <div class="space-y-2 mb-4">
+                    <label class="flex items-center gap-2 bg-slate-50 p-2.5 rounded-lg border text-sm cursor-pointer hover:bg-slate-100">
+                        <input type="checkbox" class="accent-teal-600 rounded"> صداع أو ألم في الرأس
+                    </label>
+                    <label class="flex items-center gap-2 bg-slate-50 p-2.5 rounded-lg border text-sm cursor-pointer hover:bg-slate-100">
+                        <input type="checkbox" class="accent-teal-600 rounded"> ارتفاع في درجة الحرارة (حمى)
+                    </label>
+                    <label class="flex items-center gap-2 bg-slate-50 p-2.5 rounded-lg border text-sm cursor-pointer hover:bg-slate-100">
+                        <input type="checkbox" class="accent-teal-600 rounded"> إرهاق وتعب عام
+                    </label>
+                    <label class="flex items-center gap-2 bg-slate-50 p-2.5 rounded-lg border text-sm cursor-pointer hover:bg-slate-100">
+                        <input type="checkbox" class="accent-teal-600 rounded"> سعال أو ألم في الحلق
+                    </label>
+                </div>
+                <button onclick="analyzeSymptoms()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl text-sm shadow transition">
+                    تحليل الأعراض بالذكاء الاصطناعي
+                </button>
+                <div id="result-box" class="hidden mt-4 p-3 bg-teal-50 border border-teal-200 text-teal-900 rounded-xl text-xs leading-relaxed">
+                    <!-- Results output -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 py-2">
+        <div class="max-w-md mx-auto flex justify-around text-center text-xs text-slate-500">
+            <button class="flex flex-col items-center text-teal-600">
+                <i class="fa-solid fa-house text-lg mb-1"></i>
+                <span>الرئيسية</span>
+            </button>
+            <button class="flex flex-col items-center hover:text-teal-600">
+                <i class="fa-solid fa-kit-medical text-lg mb-1"></i>
+                <span>طوارئ</span>
+            </button>
+            <button class="flex flex-col items-center hover:text-teal-600">
+                <i class="fa-solid fa-gear text-lg mb-1"></i>
+                <span>الإعدادات</span>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        function analyzeSymptoms() {
+            const resultBox = document.getElementById('result-box');
+            resultBox.classList.remove('hidden');
+            resultBox.innerHTML = `
+                <strong><i class="fa-solid fa-square-poll-vertical"></i> النتيجة المبدئية:</strong><br>
+                الأعراض المحددة تشير إلى احتمال إصابة بإجهاد عام أو نزلات برد خفيفة.<br>
+                <span class="text-[10px] text-slate-500 mt-1 block">* تنبيه: هذا التحليل استرشادي فقط ولا يغني عن زيارة الطبيب المختص.</span>
+            `;
+        }
+    </script>
+</body>
+</html>
